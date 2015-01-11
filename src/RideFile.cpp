@@ -804,7 +804,7 @@ void RideFile::updateAvg(RideFilePoint* point)
     totalPoint->lat += point->lat;
     totalPoint->headwind += point->headwind;
     totalPoint->slope += point->slope;
-    totalPoint->temp += point->temp == NoTemp ? 0 : point->temp;
+    totalPoint->temp += point->temp;
     totalPoint->lte += point->lte;
     totalPoint->rte += point->rte;
     totalPoint->lps += point->lps;
@@ -1122,7 +1122,7 @@ RideFile::setPointValue(int index, SeriesType series, double value)
     }
 }
 
-double
+OptionDouble
 RideFilePoint::value(RideFile::SeriesType series) const
 {
     switch (series) {
@@ -1181,7 +1181,7 @@ RideFilePoint::value(RideFile::SeriesType series) const
 }
 
 void
-RideFilePoint::setValue(RideFile::SeriesType series, double value)
+RideFilePoint::setValue(RideFile::SeriesType series, OptionDouble value)
 {
     switch (series) {
         case RideFile::secs : secs = value; break;

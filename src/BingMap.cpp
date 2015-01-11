@@ -127,11 +127,11 @@ void BingMap::createHtml()
 
     // get bounding co-ordinates for ride
     foreach(RideFilePoint *rfp, myRideItem->ride()->dataPoints()) {
-        if (rfp->lat || rfp->lon) {
-            minLat = std::min(minLat,rfp->lat);
-            maxLat = std::max(maxLat,rfp->lat);
-            minLon = std::min(minLon,rfp->lon);
-            maxLon = std::max(maxLon,rfp->lon);
+        if (rfp->lat.some() && rfp->lon.some()) {
+            minLat = std::min(minLat,rfp->lat.value());
+            maxLat = std::max(maxLat,rfp->lat.value());
+            minLon = std::min(minLon,rfp->lon.value());
+            maxLon = std::max(maxLon,rfp->lon.value());
         }
     }
 
@@ -513,11 +513,11 @@ void BingMap::zoomInterval(IntervalItem *which)
     // get bounding co-ordinates for ride
     for(int i=start; i<= end; i++) {
         RideFilePoint *rfp = ride->ride()->dataPoints().at(i);
-        if (rfp->lat || rfp->lon) {
-            minLat = std::min(minLat,rfp->lat);
-            maxLat = std::max(maxLat,rfp->lat);
-            minLon = std::min(minLon,rfp->lon);
-            maxLon = std::max(maxLon,rfp->lon);
+        if (rfp->lat.some() && rfp->lon.some()) {
+            minLat = std::min(minLat,rfp->lat.value());
+            maxLat = std::max(maxLat,rfp->lat.value());
+            minLon = std::min(minLon,rfp->lon.value());
+            maxLon = std::max(maxLon,rfp->lon.value());
         }
     }
 
@@ -588,9 +588,9 @@ BWebBridge::getLatLons(int i)
                             if (p1->secs+rideItem->ride()->recIntSecs() > current->start
                                 && p1->secs< current->stop) {
 
-                                if (p1->lat || p1->lon) {
-                                    latlons << p1->lat;
-                                    latlons << p1->lon;
+                                if (p1->lat.some() && p1->lon.some()) {
+                                    latlons << p1->lat.value();
+                                    latlons << p1->lon.value();
                                 }
                             }
                         }
@@ -603,9 +603,9 @@ BWebBridge::getLatLons(int i)
 
         // get latlons for entire route
         foreach (RideFilePoint *p1, rideItem->ride()->dataPoints()) {
-            if (p1->lat || p1->lon) {
-                latlons << p1->lat;
-                latlons << p1->lon;
+            if (p1->lat.some() && p1->lon.some()) {
+                latlons << p1->lat.value();
+                latlons << p1->lon.value();
             }
         }
     }

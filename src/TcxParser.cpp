@@ -225,8 +225,8 @@ TcxParser::endElement( const QString&, const QString&, const QString& qName)
                                           prevPoint->nm + (deltaTorque * weight),
                                           prevPoint->watts + (deltaPower * weight),
                                           prevPoint->alt + (deltaAlt * weight),
-                                          badgps ? 0 : prevPoint->lon + (deltaLon * weight), // lon
-                                          badgps ? 0 : prevPoint->lat + (deltaLat * weight), // lat
+                                          badgps ? OptionDouble() : prevPoint->lon + (deltaLon * weight), // lon
+                                          badgps ? OptionDouble() : prevPoint->lat + (deltaLat * weight), // lat
                                           headwind, // headwind
                                           0.0,
                                           RideFile::NoTemp,

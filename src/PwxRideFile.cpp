@@ -50,6 +50,7 @@ PwxFileReader::openRideFile(QFile &file, QStringList &errors, QList<RideFile*>*)
 RideFile *
 PwxFileReader::PwxFromDomDoc(QDomDocument doc, QStringList &errors) const
 {
+    (void)errors;
     RideFile *rideFile = new RideFile();
     QDomElement root = doc.documentElement();
     QDomNode workout = root.firstChildElement("workout");
@@ -572,13 +573,13 @@ PwxFileReader::writeRideFile(Context *context, const RideFile *ride, QFile &file
     root.appendChild(summarydata);
     QDomElement beginning = doc.createElement("beginning");
     text = doc.createTextNode(QString("%1").arg(ride->dataPoints().empty()
-        ? 0 : ride->dataPoints().first()->secs));
+        ? OptionDouble() : ride->dataPoints().first()->secs));
     beginning.appendChild(text);
     summarydata.appendChild(beginning);
 
     QDomElement duration = doc.createElement("duration");
     text = doc.createTextNode(QString("%1").arg(ride->dataPoints().empty()
-        ? 0 : ride->dataPoints().last()->secs));
+        ? OptionDouble() : ride->dataPoints().last()->secs));
     duration.appendChild(text);
     summarydata.appendChild(duration);
 
@@ -621,7 +622,7 @@ PwxFileReader::writeRideFile(Context *context, const RideFile *ride, QFile &file
     }
     QDomElement dist = doc.createElement("dist");
     text = doc.createTextNode(QString("%1")
-        .arg((int)(ride->dataPoints().empty() ? 0
+        .arg((int)(ride->dataPoints().empty() ? OptionDouble()
             : ride->dataPoints().last()->km * 1000)));
     dist.appendChild(text);
     summarydata.appendChild(dist);
@@ -717,7 +718,7 @@ PwxFileReader::writeRideFile(Context *context, const RideFile *ride, QFile &file
                 // looks like they expect some smoothing or something?
                 // we set 0 to 1 to at least get an upload
                 // and do the reverse in the reader above
-                int watts = point->watts ? point->watts : 1;
+                int watts = point->watts.valueOr(1.0);
                 QDomElement pwr = doc.createElement("pwr");
                 text = doc.createTextNode(QString("%1").arg(watts));
                 pwr.appendChild(text);

@@ -140,7 +140,7 @@ FixDerivePower::postProcess(RideFile *ride, DataProcessorConfig *config=0)
         for (int i=0; i<ride->dataPoints().count(); i++) {
             RideFilePoint *p = ride->dataPoints()[i];
             // Estimate Power if not in data
-            double cad = ride->areDataPresent()->cad ? p->cad : 85.00;
+            double cad = p->cad.valueOr(85.0);
             if (cad > 0) {
                 if (ride->areDataPresent()->temp) T = p->temp;
                 double Slope = atan(p->slope * .01);
@@ -155,7 +155,7 @@ FixDerivePower::postProcess(RideFile *ride, DataProcessorConfig *config=0)
                 CwaRider = (1 + cad * cCad) * afCd * adipos * (((hRider - adipos) * afSin) + adipos);
                 Ka = 176.5 * exp(-p->alt * .0001253) * (CwaRider + CwaBike) / (273 + T);
                 //qDebug()<<"acc="<<p->kphd<<" , V="<<V<<" , m="<<M<<" , Pa="<<(p->kphd > 1 ? 1 : p->kphd*V*M);
-                double watts = (afCm * V * (Ka * (vw * vw) + Frg + V * CrDyn))+(p->kphd > 1 ? 1 : p->kphd*V*M);
+                double watts = (afCm * V * (Ka * (vw * vw) + Frg + V * CrDyn))+(p->kphd > 1 ? 1 : p->kphd.value()*V*M);
                 ride->command->setPointValue(i, RideFile::watts, watts > 0 ? (watts > 1000 ? 1000 : watts) : 0);
                 //qDebug()<<"w="<<p->watts<<", Ka="<<Ka<<", CwaRi="<<CwaRider<<", slope="<<p->slope<<", v="<<p->kph<<" Cwa="<<(CwaRider + CwaBike);
             } else {

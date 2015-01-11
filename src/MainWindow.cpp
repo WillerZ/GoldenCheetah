@@ -831,6 +831,8 @@ MainWindow::showToolbar(bool want)
         head->hide();
     }
     setUpdatesEnabled(true);
+#else
+    (void)want;
 #endif
 }
 

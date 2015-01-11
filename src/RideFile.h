@@ -19,6 +19,7 @@
 #ifndef _RideFile_h
 #define _RideFile_h
 #include "GoldenCheetah.h"
+#include "OptionDouble.h"
 
 #include <QDate>
 #include <QDir>
@@ -327,55 +328,55 @@ class RideFile : public QObject // QObject to emit signals
 struct RideFilePoint
 {
     // recorded data
-    double secs, cad, hr, km, kph, nm, watts, alt, lon, lat, headwind, slope, temp;
+    OptionDouble secs, cad, hr, km, kph, nm, watts, alt, lon, lat, headwind, slope, temp;
 
     // pedals
-    double lrbalance, lte, rte, lps, rps;
-    double lpco, rpco; // left and right platform center offset
-    double lppb, rppb, lppe, rppe; // left and right power phase begin/end
-    double lpppb, rpppb, lpppe, rpppe; // left and right begin and end peak power phase
+    OptionDouble lrbalance, lte, rte, lps, rps;
+    OptionDouble lpco, rpco; // left and right platform center offset
+    OptionDouble lppb, rppb, lppe, rppe; // left and right power phase begin/end
+    OptionDouble lpppb, rpppb, lpppe, rpppe; // left and right begin and end peak power phase
 
     // oxy
-    double smo2, thb;
+    OptionDouble smo2, thb;
 
     // acceleration in watts/s km/s
-    double hrd, cadd, kphd, nmd, wattsd;
+    OptionDouble hrd, cadd, kphd, nmd, wattsd;
 
     // running data
-    double rvert, rcad, rcontact;
+    OptionDouble rvert, rcad, rcontact;
 
     int interval;
 
     // derived data (we calculate it)
     // xPower, normalised power, aPower
-    double xp, np, apower, atiss, antiss, gear, hhb, o2hb;
+    OptionDouble xp, np, apower, atiss, antiss, gear, hhb, o2hb;
 
     // create blank point
-    RideFilePoint() : secs(0.0), cad(0.0), hr(0.0), km(0.0), kph(0.0), nm(0.0), 
-                      watts(0.0), alt(0.0), lon(0.0), lat(0.0), headwind(0.0), 
-                      slope(0.0), temp(-255.0),
+    RideFilePoint() : secs(OptionDouble(0.0)), cad(OptionDouble(0.0)), hr(OptionDouble(0.0)), km(OptionDouble(0.0)), kph(OptionDouble(0.0)), nm(OptionDouble(0.0)), 
+                      watts(OptionDouble(0.0)), alt(OptionDouble(0.0)), lon(OptionDouble(0.0)), lat(OptionDouble(0.0)), headwind(OptionDouble(0.0)), 
+                      slope(OptionDouble(0.0)), temp(-255.0),
                       lrbalance(0),
-                      lte(0.0), rte(0.0), lps(0.0), rps(0.0),
-                      lpco(0.0), rpco(0.0),
-                      lppb(0.0), rppb(0.0), lppe(0.0), rppe(0.0),
-                      lpppb(0.0), rpppb(0.0), lpppe(0.0), rpppe(0.0),
-                      smo2(0.0), thb(0.0),
-                      hrd(0.0), cadd(0.0), kphd(0.0), nmd(0.0), wattsd(0.0),
-                      rvert(0.0), rcad(0.0), rcontact(0.0),
-                      interval(0), xp(0), np(0),
-                      apower(0), atiss(0.0), antiss(0.0), gear(0.0), hhb(0.0), o2hb(0.0) {}
+                      lte(OptionDouble(0.0)), rte(OptionDouble(0.0)), lps(OptionDouble(0.0)), rps(OptionDouble(0.0)),
+                      lpco(OptionDouble(0.0)), rpco(OptionDouble(0.0)),
+                      lppb(OptionDouble(0.0)), rppb(OptionDouble(0.0)), lppe(OptionDouble(0.0)), rppe(OptionDouble(0.0)),
+                      lpppb(OptionDouble(0.0)), rpppb(OptionDouble(0.0)), lpppe(OptionDouble(0.0)), rpppe(OptionDouble(0.0)),
+                      smo2(OptionDouble(0.0)), thb(OptionDouble(0.0)),
+                      hrd(OptionDouble(0.0)), cadd(OptionDouble(0.0)), kphd(OptionDouble(0.0)), nmd(OptionDouble(0.0)), wattsd(OptionDouble(0.0)),
+                      rvert(OptionDouble(0.0)), rcad(OptionDouble(0.0)), rcontact(OptionDouble(0.0)),
+                      interval(0), xp(OptionDouble(0)), np(OptionDouble(0)),
+                      apower(OptionDouble(0)), atiss(OptionDouble(0.0)), antiss(OptionDouble(0.0)), gear(OptionDouble(0.0)), hhb(OptionDouble(0.0)), o2hb(OptionDouble(0.0)) {}
 
     // create point supplying all values
-    RideFilePoint(double secs, double cad, double hr, double km, double kph,
-                  double nm, double watts, double alt, double lon, double lat,
-                  double headwind, double slope, double temp,
-                  double lrbalance,
-                  double lte, double rte, double lps, double rps,
-                  double lpco, double rpco,
-                  double lppb, double rppb, double lppe, double rppe,
-                  double lpppb, double rpppb, double lpppe, double rpppe,
-                  double smo2, double thb, 
-                  double rvert, double rcad, double rcontact,
+    RideFilePoint(OptionDouble secs, OptionDouble cad, OptionDouble hr, OptionDouble km, OptionDouble kph,
+                  OptionDouble nm, OptionDouble watts, OptionDouble alt, OptionDouble lon, OptionDouble lat,
+                  OptionDouble headwind, OptionDouble slope, OptionDouble temp,
+                  OptionDouble lrbalance,
+                  OptionDouble lte, OptionDouble rte, OptionDouble lps, OptionDouble rps,
+                  OptionDouble lpco, OptionDouble rpco,
+                  OptionDouble lppb, OptionDouble rppb, OptionDouble lppe, OptionDouble rppe,
+                  OptionDouble lpppb, OptionDouble rpppb, OptionDouble lpppe, OptionDouble rpppe,
+                  OptionDouble smo2, OptionDouble thb, 
+                  OptionDouble rvert, OptionDouble rcad, OptionDouble rcontact,
                   int interval) :
 
         secs(secs), cad(cad), hr(hr), km(km), kph(kph), nm(nm), watts(watts), alt(alt), lon(lon), 
@@ -386,13 +387,13 @@ struct RideFilePoint
         lppb(lppb), rppb(rppb), lppe(lppe), rppe(rppe),
         lpppb(lpppb), rpppb(rpppb), lpppe(lpppe), rpppe(rpppe),
         smo2(smo2), thb(thb),
-        hrd(0.0), cadd(0.0), kphd(0.0), nmd(0.0), wattsd(0.0), 
+        hrd(OptionDouble(0.0)), cadd(OptionDouble(0.0)), kphd(OptionDouble(0.0)), nmd(OptionDouble(0.0)), wattsd(OptionDouble(0.0)), 
         rvert(rvert), rcad(rcad), rcontact(rcontact), interval(interval), 
-        xp(0), np(0), apower(0), atiss(0.0), antiss(0.0), gear(0.0),hhb(0.0),o2hb(0.0) {}
+        xp(OptionDouble(0.0)), np(OptionDouble(0.0)), apower(OptionDouble(0.0)), atiss(OptionDouble(0.0)), antiss(OptionDouble(0.0)), gear(OptionDouble(0.0)),hhb(OptionDouble(0.0)),o2hb(OptionDouble(0.0)) {}
 
     // get the value via the series type rather than access direct to the values
-    double value(RideFile::SeriesType series) const;
-    void setValue(RideFile::SeriesType series, double value);
+    OptionDouble value(RideFile::SeriesType series) const;
+    void setValue(RideFile::SeriesType series, OptionDouble value);
 };
 
 struct RideFileReader {

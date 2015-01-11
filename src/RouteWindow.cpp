@@ -602,9 +602,9 @@ WebBridgeForRoute::getLatLons(int i)
                             if (p1->secs+rideFile->recIntSecs() > current->start
                                 && p1->secs< current->stop) {
 
-                                if (p1->lat || p1->lon) {
-                                    latlons << p1->lat;
-                                    latlons << p1->lon;
+                                if (p1->lat.some() && p1->lon.some()) {
+                                    latlons << p1->lat.value();
+                                    latlons << p1->lon.value();
                                 }
                             }
                         }
@@ -618,9 +618,9 @@ WebBridgeForRoute::getLatLons(int i)
         // get latlons for entire route
         if (rideFile && rideFile != NULL)
             foreach (RideFilePoint *p1, rideFile->dataPoints()) {
-                if (p1->lat || p1->lon) {
-                    latlons << p1->lat;
-                    latlons << p1->lon;
+                if (p1->lat.some() && p1->lon.some()) {
+                    latlons << p1->lat.value();
+                    latlons << p1->lon.value();
                 }
             }
     }
