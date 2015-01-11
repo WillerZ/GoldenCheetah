@@ -598,6 +598,7 @@ SOURCES += \
         NewCyclistDialog.cpp \
         NullController.cpp \
         OAuthDialog.cpp \
+        OptionDouble.cpp \
         PaceTimeInZone.cpp \
         PaceZones.cpp \
         Pages.cpp \
