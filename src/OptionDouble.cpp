@@ -3,13 +3,13 @@
 #include "OptionDouble.h"
 #include <stdexcept>
 
-std::ostream& operator<< (std::ostream& out, OptionDouble& od) {
+std::ostream& operator<< (std::ostream& out, const OptionDouble& od) {
     if (od.some())
         return out << od.value();
     else
         return out;
 }
-QTextStream& operator<< (QTextStream& out, OptionDouble& od) {
+QTextStream& operator<< (QTextStream& out, const OptionDouble& od) {
     if (od.some())
         return out << od.value();
     else
@@ -58,6 +58,28 @@ OptionDouble OptionDouble::operator+(const OptionDouble& other) const {
 void OptionDouble::operator+=(const OptionDouble& other) {
     if (_some && other._some)
         _value += other._value;
+}
+OptionDouble OptionDouble::operator/(const OptionDouble& other) const {
+    if (_some && other._some)
+        return OptionDouble(_value / other._value);
+    if (_some)
+        return OptionDouble(_value);
+    return OptionDouble();
+}
+void OptionDouble::operator/=(const OptionDouble& other) {
+    if (_some && other._some)
+        _value /= other._value;
+}
+OptionDouble OptionDouble::operator*(const OptionDouble& other) const {
+    if (_some && other._some)
+        return OptionDouble(_value * other._value);
+    if (_some)
+        return OptionDouble(_value);
+    return OptionDouble();
+}
+void OptionDouble::operator*=(const OptionDouble& other) {
+    if (_some && other._some)
+        _value *= other._value;
 }
 
 OptionDouble OptionDouble::max(const OptionDouble& one, const OptionDouble& two) {
