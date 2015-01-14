@@ -68,7 +68,6 @@ RideSummaryWindow::RideSummaryWindow(Context *context, bool ridesummary) :
         cl->setSpacing(0);
         setControls(c);
 
-#ifdef GC_HAVE_LUCENE
         // filter / searchbox
         searchBox = new SearchFilterBox(this, context);
         HelpWhatsThis *searchHelp = new HelpWhatsThis(searchBox);
@@ -77,12 +76,8 @@ RideSummaryWindow::RideSummaryWindow(Context *context, bool ridesummary) :
         connect(searchBox, SIGNAL(searchResults(QStringList)), this, SLOT(setFilter(QStringList)));
         cl->addRow(new QLabel(tr("Filter")), searchBox);
         cl->addWidget(new QLabel("")); //spacing
-#endif
 
         cl->addRow(new QLabel(tr("Date range")), dateSetting);
-
-        // ecp model
-        ecp = new ExtendedCriticalPower(context);
     }
 
     QVBoxLayout *vlayout = new QVBoxLayout;
@@ -163,7 +158,6 @@ RideSummaryWindow::configChanged(qint32)
     force = false;
 }
 
-#ifdef GC_HAVE_LUCENE
 void
 RideSummaryWindow::clearFilter()
 {
@@ -179,7 +173,6 @@ RideSummaryWindow::setFilter(QStringList list)
     filtered = true;
     refresh();
 }
-#endif
 
 void 
 RideSummaryWindow::modelProgress(int year, int month)
@@ -354,11 +347,9 @@ RideSummaryWindow::refresh()
             }
 
             FilterSet fs;
-#ifdef GC_HAVE_LUCENE
             fs.addFilter(filtered, filters);
             fs.addFilter(context->isfiltered, context->filters);
             fs.addFilter(context->ishomefiltered, context->homeFilters);
-#endif
             specification.setFilterSet(fs);
         }
         rideSummary->page()->mainFrame()->setHtml(htmlSummary());
@@ -996,7 +987,7 @@ RideSummaryWindow::htmlSummary()
                     }
                     foreach (QString symbol, intervalMetrics) {
                         RideMetricPtr m = metrics.value(symbol);
-                        if (!m) continue;
+                        if (!m || !m->isRelevantForRide(rideItem)) continue;
                         summary += "<td align=\"center\" valign=\"bottom\">" + m->name();
                         if (m->internalName().startsWith("Pace") || m->internalName().startsWith("xPace")) { // pace is mm:ss
 
@@ -1059,7 +1050,7 @@ RideSummaryWindow::htmlSummary()
 
                 foreach (QString symbol, intervalMetrics) {
                     RideMetricPtr m = metrics.value(symbol);
-                    if (!m) continue;
+                    if (!m || !m->isRelevantForRide(rideItem)) continue;
                     QString s("<td align=\"center\">%1</td>");
                     if (m->units(useMetricUnits) == "seconds" || m->units(useMetricUnits) == tr("seconds"))
                         summary += s.arg(time_to_string(m->value(useMetricUnits)));
